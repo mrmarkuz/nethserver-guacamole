@@ -1,5 +1,0 @@
-#!/bin/bash
-
-if [ ! -f /var/lib/pgsql/data/postgresql.conf ]; then
-    /sbin/service postgresql initdb
-fi

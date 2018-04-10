@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# run mysql
+
+systemctl restart mysqld
+
+# run guacamole install script if not installed
+chmod +x /opt/guacamole/guacamole-install-script2.sh
+if [ ! -d "/usr/local/src/guacamole" ]; then
+   /opt/guacamole/guacamole-install-script2.sh -s -p no
+fi

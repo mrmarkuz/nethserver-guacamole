@@ -5,14 +5,15 @@ Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name} 
 Source0: %{name}-%{version}.tar.gz
-Source1: http://sourceforge.net/projects/guacamoleinstallscript/files/CentOS/guacamole-install-script.sh
 BuildArch: noarch
 
 Requires: nethserver-mysql,java-1.7.0-openjdk-devel
-Requires: nethserver-base
+Requires: nethserver-base,nethserver-tomcat,guacd,libguac-client-rdp,libguac-client-ssh,libguac-client-vnc
+Requires: wget,pv,dialog,gcc,cairo-devel,libpng-devel,uuid-devel,ffmpeg-devel,freerdp-devel,freerdp-plugins,pango-devel,libssh2-devel,libtelnet-devel,libvncserver-devel,pulseaudio-libs-devel,openssl-devel,libvorbis-devel,libwebp-devel,tomcat,gnu-free-mono-fonts
+
 
 BuildRequires: perl
-BuildRequires: nethserver-devtools 
+BuildRequires: nethserver-devtools
 
 %description
 NethServer guacamole configuration
@@ -26,7 +27,6 @@ perl createlinks
 %install
 rm -rf %{buildroot}
 mkdir -p root/opt/guacamole
-cp %{SOURCE1} root/opt/guacamole/
 (cd root; find . -depth -print | cpio -dump %{buildroot})
 %{genfilelist} %{buildroot} > %{name}-%{version}-filelist
 
