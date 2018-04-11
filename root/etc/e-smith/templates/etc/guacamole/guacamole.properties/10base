@@ -14,7 +14,7 @@ our $ldapuserattr = "";
 
 if ($sssd->isAD()) {
    $basedn = "cn=Users," . $basedn;
-   $ldapuserattr = "ldap-username-attribute: name";
+   $ldapuserattr = "ldap-username-attribute: samaccountname";
 }
 
 }
