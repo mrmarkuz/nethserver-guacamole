@@ -37,4 +37,5 @@ event_actions($event,
 event_templates($event, '/etc/guacamole/guacamole.properties');
 
 event_services($event, 'httpd' => 'reload',
-                       'tomcat' => 'restart');
+                       'tomcat' => 'restart',
+                       'guacd' => 'restart');

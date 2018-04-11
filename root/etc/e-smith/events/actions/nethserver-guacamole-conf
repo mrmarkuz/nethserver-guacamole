@@ -1,11 +1,23 @@
 #!/bin/bash
 
-# run mysql
+# make dirs
 
-systemctl restart mysqld
+mkdir /etc/guacamole /usr/share/tomcat/.guacamole/
 
-# run guacamole install script if not installed
-chmod +x /opt/guacamole/guacamole-install-script2.sh
-if [ ! -d "/usr/local/src/guacamole" ]; then
-   /opt/guacamole/guacamole-install-script2.sh -s -p no
+# create symbolic links
+
+ln -vfs /var/lib/guacamole/guacamole.war /var/lib/tomcat/webapps
+ln -vfs /etc/guacamole/guacamole.properties /usr/share/tomcat/.guacamole/
+ln -vfs /var/lib/guacamole/lib/ /usr/share/tomcat/.guacamole/
+ln -vfs /var/lib/guacamole/extensions/ /usr/share/tomcat/.guacamole/
+ln -vfs /usr/local/lib/freerdp/guac* /usr/lib64/freerdp
+
+# create db, role and schema if not exists
+
+if [ ! -d /var/lib/mysql/guacamole ] ; then
+   mysql -e "CREATE DATABASE guacamole;"
+   mysql -e "GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole.* TO 'guacamole'@'localhost' IDENTIFIED BY 'guacamole';"
+   mysql -e "FLUSH PRIVILEGES;"
+
+   cat /opt/guacamole/*.sql | mysql -Dguacamole
 fi
