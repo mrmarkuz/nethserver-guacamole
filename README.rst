@@ -4,7 +4,7 @@ nethserver-guacamole
 
 Apache Guacamole is a clientless remote desktop gateway. It supports standard protocols like VNC, RDP, and SSH.
 
-Installation
-============
+Links
+=====
 
-guacamole is compiled at install so be patient...
+https://community.nethserver.org/t/howto-install-guacamole/9047
