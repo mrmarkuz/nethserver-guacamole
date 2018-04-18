@@ -1,24 +1,3 @@
-{
-use esmith::ConfigDB;
-use File::Temp;
-use NethServer::SSSD;
-our $sssd = new NethServer::SSSD();
-our $db = esmith::ConfigDB->open_ro() or die "Could not open config db";
-our $record = $db->get("sssd") or die "No Workgroup in config db";
-our $domain = $record->prop("Workgroup");
-our $host = $sssd->host();
-our $basedn = $sssd->baseDN();
-our $binddn = $sssd->bindDN();
-our $secret = $sssd->bindPassword();
-our $ldapuserattr = "";
-
-if ($sssd->isAD()) {
-   $basedn = "cn=Users," . $basedn;
-   $ldapuserattr = "ldap-username-attribute: samaccountname";
-}
-
-}
-
 # Hostname and port of guacamole proxy
 guacd-hostname: localhost
 guacd-port:     4822
@@ -33,10 +12,37 @@ mysql-default-max-connections-per-user: 0
 mysql-default-max-group-connections-per-user: 0
 
 # LDAP properties
-ldap-hostname: { $OUT .= "$host"; }
-ldap-port: 389
-ldap-encryption-method:none
-ldap-user-base-dn: { $OUT .= "$basedn"; }
-ldap-search-bind-dn: { $OUT .= "$binddn"; }
-ldap-search-bind-password: { $OUT .= "$secret"; }
-{ $OUT .= "$ldapuserattr"; }
+{
+use esmith::ConfigDB;
+use File::Temp;
+use NethServer::SSSD;
+my $sssd = new NethServer::SSSD();
+my $db = esmith::ConfigDB->open_ro() or die "Could not open config db";
+my $record = $db->get("sssd") or die "No Workgroup in config db";
+my $domain = $record->prop("Workgroup");
+my $host = $sssd->host();
+my $basedn = $sssd->baseDN();
+my $binddn = $sssd->bindDN();
+my $secret = $sssd->bindPassword();
+my $port = $sssd->port();
+my $ldapuserattr = "";
+my $encry = "none";
+
+if ($sssd->isAD()) {
+   $basedn = "cn=Users," . $basedn;
+   $ldapuserattr = "ldap-username-attribute: samaccountname";
+   $encry = "ssl";
+}
+
+if ($sssd->startTls()) { 
+   $encry = "starttls";
+}
+
+$OUT .= "ldap-hostname: $host\n";
+$OUT .= "ldap-port: $port\n";
+$OUT .= "ldap-encryption-method: $encry\n";
+$OUT .= "ldap-user-base-dn: $basedn\n";
+$OUT .= "ldap-search-bind-dn: $binddn\n";
+$OUT .= "ldap-search-bind-password: $secret\n";
+$OUT .= "$ldapuserattr\n";
+}
