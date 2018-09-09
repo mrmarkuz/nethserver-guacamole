@@ -1,7 +1,7 @@
 Summary: Guacamole for NethServer
 Name: nethserver-guacamole
 Version: 0.0.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name} 
 Source0: %{name}-%{version}.tar.gz
