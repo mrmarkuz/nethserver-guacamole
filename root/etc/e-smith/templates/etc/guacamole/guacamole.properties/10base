@@ -38,6 +38,10 @@ if ($sssd->startTls()) {
    $encry = "starttls";
 }
 
+if (${'guacd'}{'Encryption'}) {
+   $encry = ${'guacd'}{'Encryption'};
+}
+
 $OUT .= "ldap-hostname: $host\n";
 $OUT .= "ldap-port: $port\n";
 $OUT .= "ldap-encryption-method: $encry\n";
