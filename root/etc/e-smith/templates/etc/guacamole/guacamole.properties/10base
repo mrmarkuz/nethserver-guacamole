@@ -42,6 +42,10 @@ if (${'guacd'}{'Encryption'}) {
    $encry = ${'guacd'}{'Encryption'};
 }
 
+if (${'guacd'}{'ldapPort'}) {
+   $port = ${'guacd'}{'ldapPort'};
+}
+
 $OUT .= "ldap-hostname: $host\n";
 $OUT .= "ldap-port: $port\n";
 $OUT .= "ldap-encryption-method: $encry\n";

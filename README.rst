@@ -4,12 +4,18 @@ nethserver-guacamole
 
 Apache Guacamole is a clientless remote desktop gateway. It supports standard protocols like VNC, RDP, and SSH.
 
-Properties
-==========
+LDAP Properties
+===============
 
-For remote zentyal use
+Nethserver-guacamole tries to guess the right settings.
+
+For custom ldap encryption (none, ssl or starttls):
 
   config setprop guacd Encryption none
+
+For use a custom ldap port (usually 389 or 636):
+
+  config setprop guacd ldapPort 389
 
 Links
 =====
