@@ -16,7 +16,7 @@ ln -vfs /usr/local/lib/freerdp/guac* /usr/lib64/freerdp
 
 if [ ! -d /var/lib/mysql/guacamole ] ; then
    mysql -e "CREATE DATABASE guacamole;"
-   mysql -e "GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole.* TO 'guacamole'@'localhost' IDENTIFIED BY 'guacamole';"
+   mysql -e "GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole.* TO 'guacamole'@'localhost' IDENTIFIED BY '`cat /var/lib/nethserver/secret/guacamole`';"
    mysql -e "FLUSH PRIVILEGES;"
 
    cat /opt/guacamole/*.sql | mysql -Dguacamole
