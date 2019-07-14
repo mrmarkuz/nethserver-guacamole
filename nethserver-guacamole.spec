@@ -9,7 +9,7 @@ BuildArch: noarch
 
 Requires: nethserver-mysql,java-1.8.0-openjdk-devel
 #Requires: nethserver-base,nethserver-tomcat,guacd,libguac-client-rdp,libguac-client-ssh,libguac-client-vnc,gnu-free-mono-fonts
-Requires: nethserver-base,nethserver-tomcat,guacd,libguac-client-rdp,libguac-client-ssh,libguac-client-vnc,gnu-free-mono-fonts
+Requires: nethserver-base,nethserver-tomcat,gnu-free-mono-fonts
 
 
 BuildRequires: perl
