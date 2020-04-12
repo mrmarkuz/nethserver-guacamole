@@ -1,0 +1,19 @@
+{
+  "id": "nethserver-guacamole",
+  "name": "Guacamole",
+  "summary": "Nethserver integration for Guacamole",
+  "description": "Provides a clientless remote desktop gateway",
+  "url": "",
+  "provides": ["nethserver-guacamole"],
+  "release": {
+    "version": "0.0.1"
+  },
+  "author": {
+    "name": "Markus Neuberger"
+  },
+  "infoapi": {
+    "path": "nethserver-guacamole/read"
+  },
+  "icon": "logo.png",
+  "external": true
+}

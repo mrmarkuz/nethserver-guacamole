@@ -1,0 +1,19 @@
+#
+# Guacamole jail
+#
+
+{ 
+if (-f /var/log/messages && $guacamole{'jailStatus'} || '') == 'enabled' ) {
+
+$out .= q(
+
+[guacamole]
+enabled = true
+port = 80,443
+logpath = /var/log/messages
+filter = guacamole
+banaction = shorewall-ipset-proto6
+
+)
+
+}

@@ -24,18 +24,35 @@ use strict;
 use esmith::Build::CreateLinks  qw(:all);
 
 #--------------------------------------------------
-# actions for nethserver-postgresql-update event
+# actions for nethserver-guacamole-update event
 #--------------------------------------------------
 
 my $event = "nethserver-guacamole-update";
 
 event_actions($event, 
-    'initialize-default-databases' => '00',
-    'nethserver-guacamole-conf' => '02' #must be executed before template expansion
+  'initialize-default-databases' => '00',
+  'nethserver-guacamole-conf' => '02' #must be executed before template expansion
 );
 
-event_templates($event, '/etc/guacamole/guacamole.properties');
+event_templates($event, qw(
+  /etc/guacamole/guacamole.properties
+  /etc/fail2ban/filter.d/guacamole.conf
+  /etc/shorewall/blrules
+
+));
 
 event_services($event, 'httpd' => 'reload',
                        'tomcat' => 'restart',
                        'guacd' => 'restart');
+
+#
+# nethserver-sssd-save event
+#
+
+event_templates('nethserver-sssd-save',qw(
+  /etc/guacamole/guacamole.properties
+));
+
+event_services('nethserver-sssd-save', qw(
+  tomcat restart
+));

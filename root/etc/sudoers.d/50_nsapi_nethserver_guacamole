@@ -1,0 +1,7 @@
+#
+# nsapi_nethserver_guacamole
+#
+Cmnd_Alias NSAPI_NETHSERVER_GUACAMOLE = \
+    /usr/libexec/nethserver/api/nethserver-guacamole/read
+
+Defaults!NSAPI_NETHSERVER_GUACAMOLE !requiretty

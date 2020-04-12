@@ -13,44 +13,49 @@ mysql-default-max-group-connections-per-user: 0
 
 # LDAP properties
 {
-use esmith::ConfigDB;
-use File::Temp;
-use NethServer::SSSD;
-my $sssd = new NethServer::SSSD();
-my $db = esmith::ConfigDB->open_ro() or die "Could not open config db";
-my $record = $db->get("sssd") or die "No Workgroup in config db";
-my $domain = $record->prop("Workgroup");
-my $host = $sssd->host();
-my $basedn = $sssd->baseDN();
-my $binddn = $sssd->bindDN();
-my $secret = $sssd->bindPassword();
-my $port = $sssd->port();
-my $ldapuserattr = "";
-my $encry = "none";
-
-if ($sssd->isAD()) {
-   $basedn = "cn=Users," . $basedn;
-   $ldapuserattr = "ldap-username-attribute: samaccountname";
-   $encry = "ssl";
-}
-
-if ($sssd->startTls()) { 
-   $encry = "starttls";
-}
-
-if (${'guacd'}{'Encryption'}) {
-   $encry = ${'guacd'}{'Encryption'};
-}
-
-if (${'guacd'}{'ldapPort'}) {
-   $port = ${'guacd'}{'ldapPort'};
-}
-
-$OUT .= "ldap-hostname: $host\n";
-$OUT .= "ldap-port: $port\n";
-$OUT .= "ldap-encryption-method: $encry\n";
-$OUT .= "ldap-user-base-dn: $basedn\n";
-$OUT .= "ldap-search-bind-dn: $binddn\n";
-$OUT .= "ldap-search-bind-password: $secret\n";
-$OUT .= "$ldapuserattr\n";
+  use esmith::ConfigDB;
+  use File::Temp;
+  use NethServer::SSSD;
+  my $sssd = new NethServer::SSSD();
+  my $db = esmith::ConfigDB->open_ro() or die "Could not open config db";
+  my $record = $db->get("sssd") or die "No Workgroup in config db";
+  my $domain = $record->prop("Workgroup");
+  my $host = $sssd->host();
+  my $basedn = $sssd->baseDN();
+  my $binddn = $sssd->bindDN();
+  my $secret = $sssd->bindPassword();
+  my $port = $sssd->port();
+  my $ldapuserattr = "";
+  my $encry = "none";
+  my $ldapgroupbasedn = "ou=Groups," . $basedn;
+  my $ldapusersearch = "(&(objectClass=posixAccount)(objectClass=shadowAccount)(objectClass=inetOrgPerson))";
+  if ($sssd->isAD()) {
+    $basedn = "cn=Users," . $basedn;
+    $ldapuserattr = "ldap-username-attribute: samaccountname";
+    $encry = "ssl";
+    $ldapgroupbasedn = $basedn;
+    $ldapusersearch = "(&(objectClass=top)(objectClass=user)(objectClass=person)(objectClass=organizationalPerson))";
+    $binddn = "cn=ldapservice,cn=Users," . $basedn;
+  }
+  if ($sssd->startTls()) {
+    $encry = "starttls";
+  }
+  if ($sssd->startTls()) {
+    $encry = "starttls";
+  }
+  if (${'guacd'}{'Encryption'}) {
+    $encry = ${'guacd'}{'Encryption'};
+  }
+  if (${'guacd'}{'ldapPort'}) {
+    $port = ${'guacd'}{'ldapPort'};
+  }
+  $OUT .= "ldap-hostname: $host\n";
+  $OUT .= "ldap-port: $port\n";
+  $OUT .= "ldap-encryption-method: $encry\n";
+  $OUT .= "ldap-user-base-dn: $basedn\n";
+  $OUT .= "ldap-search-bind-dn: $binddn\n";
+  $OUT .= "ldap-search-bind-password: $secret\n";
+  $OUT .= "$ldapuserattr\n";
+  $OUT .= "ldap-group-base-dn: $ldapgroupbasedn\n";
+  $OUT .= "ldap-user-search-filter: $ldapusersearch\n";
 }

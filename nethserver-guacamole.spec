@@ -1,7 +1,7 @@
 Summary: Guacamole for NethServer
 Name: nethserver-guacamole
-Version: 0.0.0
-Release: 4%{?dist}
+Version: 0.0.1
+Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name} 
 Source0: %{name}-%{version}.tar.gz
@@ -20,7 +20,7 @@ Apache Guacamole NethServer integration
 
 %pre
 if ! getent passwd guacd >/dev/null; then
-   # Add the "mattermost" user
+   # Add the guacd user
    useradd -r -U -s /sbin/nologin -d /var/lib/nethserver/guacd guacd
 fi
 
@@ -46,3 +46,7 @@ mkdir -p %{buildroot}/var/lib/nethserver/mattermost
 %dir %{_nseventsdir}/%{name}-update
 
 %changelog
+* Sun Apr 12 2020 Markus Neuberger <info@markusneuberger.at> - 0.0.1-1
+- Add cockpit application
+- Update to 1.1.0
+- Add fail2ban code
