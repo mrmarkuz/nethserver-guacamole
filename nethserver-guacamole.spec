@@ -46,7 +46,8 @@ mkdir -p %{buildroot}/var/lib/nethserver/mattermost
 %dir %{_nseventsdir}/%{name}-update
 
 %changelog
-* Sun Apr 12 2020 Markus Neuberger <info@markusneuberger.at> - 0.0.1-1
+* Mon Apr 13 2020 Markus Neuberger <info@markusneuberger.at> - 0.0.1-1
 - Add cockpit application
 - Update to 1.1.0
 - Add fail2ban code
+

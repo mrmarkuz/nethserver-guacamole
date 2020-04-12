@@ -12,12 +12,16 @@ ln -vfs /var/lib/guacamole/lib/ /usr/share/tomcat/.guacamole/
 ln -vfs /var/lib/guacamole/extensions/ /usr/share/tomcat/.guacamole/
 ln -vfs /usr/local/lib/freerdp/guac* /usr/lib64/freerdp
 
-# create db, role and schema if not exists
-
 if [ ! -d /var/lib/mysql/guacamole ] ; then
-   mysql -e "CREATE DATABASE guacamole;"
-   mysql -e "GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole.* TO 'guacamole'@'localhost' IDENTIFIED BY '`cat /var/lib/nethserver/secret/guacamole`';"
-   mysql -e "FLUSH PRIVILEGES;"
-
-   cat /opt/guacamole/*.sql | mysql -Dguacamole
+  # create db, role and schema if not exists
+  mysql -e "CREATE DATABASE guacamole;"
+  mysql -e "GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole.* TO 'guacamole'@'localhost' IDENTIFIED BY '`cat /var/lib/nethserver/secret/guacamole`';"
+  mysql -e "FLUSH PRIVILEGES;"
+  # fill DB
+  cat /opt/guacamole/*.sql | mysql -Dguacamole
+else
+  if [ $(mysql -ss -e "SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_schema = 'guacamole' AND table_name = 'guacamole_entities');") == 0 ] ; then
+    # update DB if not already updated
+    cat /opt/guacamole/upgrade/upgrade-pre-0.9.14.sql /opt/guacamole/upgrade/upgrade-pre-1.0.0.sql | mysql -Dguacamole
+  fi
 fi
