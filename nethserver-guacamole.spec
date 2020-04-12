@@ -5,7 +5,7 @@ Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name} 
 Source0: %{name}-%{version}.tar.gz
-BuildArch: noarch
+BuildArch: x86_64
 
 Requires: nethserver-mysql,java-1.8.0-openjdk-devel
 Requires: nethserver-base,nethserver-tomcat,gnu-free-mono-fonts
