@@ -12,16 +12,20 @@ ln -vfs /var/lib/guacamole/lib/ /usr/share/tomcat/.guacamole/
 ln -vfs /var/lib/guacamole/extensions/ /usr/share/tomcat/.guacamole/
 ln -vfs /usr/local/lib/freerdp/guac* /usr/lib64/freerdp
 
+# use guacamole mysql password
+pass=$(perl -e "use NethServer::Password; print NethServer::Password::store('guacamole') || die('Could not read vmail password!');")
+
 if [ ! -d /var/lib/mysql/guacamole ] ; then
   # create db, role and schema if not exists
   mysql -e "CREATE DATABASE guacamole;"
-  mysql -e "GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole.* TO 'guacamole'@'localhost' IDENTIFIED BY '`cat /var/lib/nethserver/secret/guacamole`';"
+  mysql -e "GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole.* TO 'guacamole'@'localhost' IDENTIFIED BY '$pass';"
   mysql -e "FLUSH PRIVILEGES;"
   # fill DB
   cat /opt/guacamole/*.sql | mysql -Dguacamole
 else
-  if [ $(mysql -ss -e "SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_schema = 'guacamole' AND table_name = 'guacamole_entities');") == 0 ] ; then
+  if [ $(mysql -ss -e "SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_schema = 'guacamole' AND table_name = 'guacamole_entity');") == 0 ] ; then
     # update DB if not already updated
-    cat /opt/guacamole/upgrade/upgrade-pre-0.9.14.sql /opt/guacamole/upgrade/upgrade-pre-1.0.0.sql | mysql -Dguacamole
+    #cat /opt/guacamole/upgrade/upgrade-pre-0.9.14.sql
+    cat /opt/guacamole/upgrade/upgrade-pre-1.0.0.sql | mysql -Dguacamole
   fi
 fi
