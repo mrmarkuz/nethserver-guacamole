@@ -1,9 +1,10 @@
 {
-    use NethServer::Fail2Ban;
-    return "" if ($fail2ban{'status'} ne 'enabled');
-    my $banLocal = $fail2ban{'BanLocalNetwork'} || 'disabled';
-    $OUT .= "DROP\tnet:+f2b-guacamole\tall\n";
-    if ($banLocal eq 'enabled') {
-        $OUT .= "DROP\tloc:+f2b-guacamole\tall\n";
-    }
+  use strict;
+  use esmith::ConfigDB;
+  my $conf = esmith::ConfigDB->open || die("Could not open config db\n");
+  my $record = $conf->get('fail2ban') || '';
+  return "" if ($record eq '');
+  my $status = $record->prop('status') || 'disabled';
+  return "" if ($status ne 'enabled');
+  $OUT .= "DROP\tnet:+f2b-guacamole\tall\nDROP\tloc:+f2b-guacamole\tall\n";
 }
