@@ -1,0 +1,7 @@
+#
+# 50guacamole
+#
+
+RewriteEngine On
+RewriteCond %\{HTTPS\} !=on
+RewriteRule ^/guacamole(/.*)?$  https://%\{HTTP_HOST\}/guacamole$1  [L,R=301]
