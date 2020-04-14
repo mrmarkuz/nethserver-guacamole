@@ -59,4 +59,5 @@ cp -a ui/* %{buildroot}/usr/share/cockpit/%{name}/
 - Add cockpit application
 - Update to 1.1.0
 - Add fail2ban code
-
+- Add http redirect
+- Random password for guacamole mysql user

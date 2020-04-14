@@ -25,7 +25,6 @@ if [ ! -d /var/lib/mysql/guacamole ] ; then
 else
   if [ $(mysql -ss -e "SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_schema = 'guacamole' AND table_name = 'guacamole_entity');") == 0 ] ; then
     # update DB if not already updated
-    #cat /opt/guacamole/upgrade/upgrade-pre-0.9.14.sql
-    cat /opt/guacamole/upgrade/upgrade-pre-1.0.0.sql | mysql -Dguacamole
+    cat /opt/guacamole/upgrade/upgrade-pre-0.9.14.sql /opt/guacamole/upgrade/upgrade-pre-1.0.0.sql | mysql -Dguacamole
   fi
 fi
