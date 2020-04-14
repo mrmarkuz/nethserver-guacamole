@@ -42,6 +42,7 @@ cp -a ui/* %{buildroot}/usr/share/cockpit/%{name}/
 (cd root; find . -depth -print | cpio -dump %{buildroot})
 %{genfilelist} \
   --file /etc/sudoers.d/50_nsapi_nethserver_guacamole 'attr(0440,root,root)' \
+  --file /usr/libexec/nethserver/api/%{name}/read 'attr(775,root,root)' \
 %{buildroot} > %{name}-%{version}-filelist
 
 %post
