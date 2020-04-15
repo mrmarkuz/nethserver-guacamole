@@ -36,6 +36,7 @@ event_actions($event,
 
 event_templates($event, qw(
   /etc/guacamole/guacamole.properties
+  /etc/fail2ban/jail.d/01-guacamole.conf
   /etc/fail2ban/filter.d/guacamole.conf
   /etc/shorewall/blrules
 
@@ -55,4 +56,14 @@ event_templates('nethserver-sssd-save',qw(
 
 event_services('nethserver-sssd-save', qw(
   tomcat restart
+));
+
+#
+# nethserver-fail2ban-save event
+#
+
+event_templates('nethserver-fail2ban-save',qw(
+  /etc/fail2ban/jail.d/01-guacamole.conf
+  /etc/fail2ban/filter.d/guacamole.conf
+  /etc/shorewall/blrules
 ));
