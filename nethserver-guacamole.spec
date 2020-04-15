@@ -7,7 +7,7 @@ URL: %{url_prefix}/%{name}
 Source0: %{name}-%{version}.tar.gz
 BuildArch: noarch
 
-Requires: nethserver-mysql,java-1.8.0-openjdk-devel
+Requires: nethserver-mysql,java-1.8.0-openjdk-devel,mysql-connector-java
 Requires: nethserver-base,nethserver-tomcat,guacd,libguac-client-rdp,libguac-client-ssh,libguac-client-vnc,gnu-free-mono-fonts
 
 BuildRequires: perl
@@ -55,9 +55,10 @@ cp -a ui/* %{buildroot}/usr/share/cockpit/%{name}/
 %dir %{_nseventsdir}/%{name}-update
 
 %changelog
-* Mon Apr 13 2020 Markus Neuberger <info@markusneuberger.at> - 0.0.1-1
+* Tue Apr 15 2020 Markus Neuberger <info@markusneuberger.at> - 0.0.1-1
 - Add cockpit application
 - Update to 1.1.0
 - Add fail2ban code
 - Add http redirect
 - Random password for guacamole mysql user
+- Use Centos mysql-connector-java

@@ -6,11 +6,12 @@ mkdir -p /etc/guacamole /usr/share/tomcat/.guacamole/ /etc/fail2ban/filter.d/
 
 # create symbolic links
 
-ln -vfs /var/lib/guacamole/guacamole.war /var/lib/tomcat/webapps
-ln -vfs /etc/guacamole/guacamole.properties /usr/share/tomcat/.guacamole/
-ln -vfs /var/lib/guacamole/lib/ /usr/share/tomcat/.guacamole/
-ln -vfs /var/lib/guacamole/extensions/ /usr/share/tomcat/.guacamole/
-ln -vfs /usr/local/lib/freerdp/guac* /usr/lib64/freerdp
+ln -fs /var/lib/guacamole/guacamole.war /var/lib/tomcat/webapps
+ln -fs /etc/guacamole/guacamole.properties /usr/share/tomcat/.guacamole/
+ln -fs /var/lib/guacamole/lib/ /usr/share/tomcat/.guacamole/
+ln -fs /var/lib/guacamole/extensions/ /usr/share/tomcat/.guacamole/
+ln -fs /usr/local/lib/freerdp/guac* /usr/lib64/freerdp
+ln -fs /usr/share/java/mysql-connector-java.jar /var/lib/guacamole/lib/
 
 # use guacamole mysql password
 pass=$(perl -e "use NethServer::Password; print NethServer::Password::store('guacamole') || die('Could not read vmail password!');")
@@ -26,5 +27,7 @@ else
   if [ $(mysql -ss -e "SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_schema = 'guacamole' AND table_name = 'guacamole_entity');") == 0 ] ; then
     # update DB if not already updated
     cat /opt/guacamole/upgrade/upgrade-pre-0.9.14.sql /opt/guacamole/upgrade/upgrade-pre-1.0.0.sql | mysql -Dguacamole
+    mysql -e "GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole.* TO 'guacamole'@'localhost' IDENTIFIED BY '$pass';"
+    mysql -e "FLUSH PRIVILEGES;"
   fi
 fi
