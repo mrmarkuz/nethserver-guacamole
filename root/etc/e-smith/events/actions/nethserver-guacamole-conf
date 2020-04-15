@@ -13,8 +13,13 @@ ln -fs /var/lib/guacamole/extensions/ /usr/share/tomcat/.guacamole/
 ln -fs /usr/local/lib/freerdp/guac* /usr/lib64/freerdp
 ln -fs /usr/share/java/mysql-connector-java.jar /var/lib/guacamole/lib/
 
+# remove guacamole dir to make guacamole.war update work as tomcat does not recognize a changed war file behind a symlink
+if [ -d /var/lib/tomcat/webapps/guacamole ] ; then
+  rm -Rf /var/lib/tomcat/webapps/guacamole
+fi
+
 # use guacamole mysql password
-pass=$(perl -e "use NethServer::Password; print NethServer::Password::store('guacamole') || die('Could not read vmail password!');")
+pass=$(perl -e "use NethServer::Password; print NethServer::Password::store('guacamole') || die('Could not read guacamole password!');")
 
 if [ ! -d /var/lib/mysql/guacamole ] ; then
   # create db, role and schema if not exists
@@ -30,4 +35,14 @@ else
     mysql -e "GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole.* TO 'guacamole'@'localhost' IDENTIFIED BY '$pass';"
     mysql -e "FLUSH PRIVILEGES;"
   fi
+fi
+
+# Fix for ldap to use guacamole-auth-ldap-1.0.0
+# The new extension uses Apache Directory API instead of JLDAP and does not work with Nethserver LDAP
+if [[ $(config getprop sssd Provider) == 'ldap' ]] ; then
+  mv /var/lib/guacamole/extensions/guacamole-auth-ldap-1.0.0.jar.disabled /var/lib/guacamole/extensions/guacamole-auth-ldap-1.0.0.jar 2> /dev/null
+  mv /var/lib/guacamole/extensions/guacamole-auth-ldap-1.1.0.jar /var/lib/guacamole/extensions/guacamole-auth-ldap-1.1.0.jar.disabled 2> /dev/null
+else
+  mv /var/lib/guacamole/extensions/guacamole-auth-ldap-1.0.0.jar /var/lib/guacamole/extensions/guacamole-auth-ldap-1.0.0.jar.disabled 2> /dev/null
+  mv /var/lib/guacamole/extensions/guacamole-auth-ldap-1.1.0.jar.disabled /var/lib/guacamole/extensions/guacamole-auth-ldap-1.1.0.jar 2> /dev/null
 fi
