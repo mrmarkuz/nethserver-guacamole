@@ -1,19 +1,19 @@
+
 #
-# Guacamole jail
+# Guacamole jail for fail2ban
 #
 
-{ 
-if (-f /var/log/messages && $guacamole{'jailStatus'} || '') == 'enabled' ) {
+{
 
-$out .= q(
+  if ($guacd{'jailStatus'} || '' eq 'enabled') {
 
+  $OUT .= '
 [guacamole]
 enabled = true
 port = 80,443
 logpath = /var/log/messages
 filter = guacamole
-banaction = shorewall-ipset-proto6
+banaction = shorewall-ipset-proto6'
 
-)
-
+  }
 }
