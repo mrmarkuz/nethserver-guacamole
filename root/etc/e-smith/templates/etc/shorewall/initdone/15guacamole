@@ -1,1 +1,10 @@
-system("/usr/sbin/ipset -quiet -exist create f2b-guacamole hash:ip timeout 1800 ");
+{
+  use strict;
+  use esmith::ConfigDB;
+  my $conf = esmith::ConfigDB->open || die("Could not open config db\n");
+  my $record = $conf->get('fail2ban') || '';
+  return "" if ($record eq '');
+  my $status = $record->prop('status') || 'disabled';
+  return "" if ($status ne 'enabled');
+  $OUT .= 'system("/usr/sbin/ipset -quiet -exist create f2b-guacamole hash:ip timeout 1800");';
+}
