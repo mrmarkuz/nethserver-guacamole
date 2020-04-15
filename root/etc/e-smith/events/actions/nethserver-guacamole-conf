@@ -36,13 +36,3 @@ else
     mysql -e "FLUSH PRIVILEGES;"
   fi
 fi
-
-# Workaround for ldap to work is to use guacamole-auth-ldap-1.0.0
-# The new extension uses Apache Directory API instead of JLDAP and does not work with Nethserver LDAP
-if [[ $(config getprop sssd Provider) == 'ldap' ]] ; then
-  mv /var/lib/guacamole/extensions/guacamole-auth-ldap-1.0.0.jar.disabled /var/lib/guacamole/extensions/guacamole-auth-ldap-1.0.0.jar 2> /dev/null
-  mv /var/lib/guacamole/extensions/guacamole-auth-ldap-1.1.0.jar /var/lib/guacamole/extensions/guacamole-auth-ldap-1.1.0.jar.disabled 2> /dev/null
-else
-  mv /var/lib/guacamole/extensions/guacamole-auth-ldap-1.0.0.jar /var/lib/guacamole/extensions/guacamole-auth-ldap-1.0.0.jar.disabled 2> /dev/null
-  mv /var/lib/guacamole/extensions/guacamole-auth-ldap-1.1.0.jar.disabled /var/lib/guacamole/extensions/guacamole-auth-ldap-1.1.0.jar 2> /dev/null
-fi

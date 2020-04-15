@@ -55,7 +55,7 @@ cp -a ui/* %{buildroot}/usr/share/cockpit/%{name}/
 %dir %{_nseventsdir}/%{name}-update
 
 %changelog
-* Tue Apr 15 2020 Markus Neuberger <info@markusneuberger.at> - 0.0.1-1
+* Wed Apr 15 2020 Markus Neuberger <info@markusneuberger.at> - 0.0.1-1
 - Add cockpit application
 - Update to 1.1.0
 - Add fail2ban code

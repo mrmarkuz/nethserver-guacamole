@@ -40,9 +40,6 @@ mysql-default-max-group-connections-per-user: 0
   if ($sssd->startTls()) {
     $encry = "starttls";
   }
-  if ($sssd->startTls()) {
-    $encry = "starttls";
-  }
   if (${'guacd'}{'Encryption'}) {
     $encry = ${'guacd'}{'Encryption'};
   }
