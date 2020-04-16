@@ -2,7 +2,7 @@
 
 # make dirs
 
-mkdir -p /etc/guacamole /usr/share/tomcat/.guacamole/ /var/lib/guacamole/lib/ /etc/fail2ban/filter.d/
+mkdir -p /etc/guacamole /usr/share/tomcat/.guacamole/ /var/lib/guacamole/lib/ /etc/fail2ban/filter.d/ /etc/fail2ban/jail.d/
 
 # create symbolic links
 
