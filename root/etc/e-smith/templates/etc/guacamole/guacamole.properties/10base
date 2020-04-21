@@ -35,7 +35,7 @@ mysql-default-max-group-connections-per-user: 0
     $encry = "ssl";
     $ldapgroupbasedn = $basedn;
     $ldapusersearch = "(&(objectClass=top)(objectClass=user)(objectClass=person)(objectClass=organizationalPerson))";
-    $binddn = (split /\@/, $binddn)[0] . "," . $basedn;
+    $binddn = "cn=" . (split /\@/, $binddn)[0] . "," . $basedn;
   }
   if ($sssd->startTls()) {
     $encry = "starttls";
