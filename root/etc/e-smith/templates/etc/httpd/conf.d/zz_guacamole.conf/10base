@@ -1,0 +1,51 @@
+{
+   my $vhost = $guacd{'VirtualHost'} || '';
+   if ($vhost ne '') {
+   $OUT .= "<VirtualHost *:80>
+   IncludeOptional conf.d/default-virtualhost.inc
+</VirtualHost>
+
+<VirtualHost *:80>
+   ServerName $vhost
+   RedirectMatch 301 ^(?!/\.well-known/acme-challenge/).* https://$vhost
+</VirtualHost>
+
+<VirtualHost *:443>
+";
+   }
+
+   if ($vhost ne '') {
+      $OUT .= "   Servername $vhost\n";
+   }
+
+   $OUT .= "   SSLProxyEngine on\n   SSLEngine on\n";
+
+   if ($vhost ne '') {
+      $OUT .= "   ProxyPass / http://localhost:8080/guacamole/  flushpackets=on
+   ProxyPassReverse / http://localhost:8080/guacamole/\n";
+
+   } else {
+
+      $OUT .= "   ProxyPass /guacamole http://localhost:8080/guacamole  flushpackets=on
+   ProxyPassReverse /guacamole http://localhost:8080/guacamole\n";
+   }
+
+   $OUT.="   <Location />
+      SSLRequireSSL
+   </Location>\n";
+
+   if ($vhost ne '') {
+      $OUT .= "   <Location /websocket-tunnel>\n";
+   } else {
+      $OUT .= "   <Location /guacamole/websocket-tunnel>\n";
+   }
+   $OUT .= "      Order allow,deny
+      Allow from all
+      ProxyPass ws://localhost:8080/guacamole/websocket-tunnel
+      ProxyPassReverse ws://localhost:8080/guacamole/websocket-tunnel
+   </Location>\n";
+
+   if ($vhost ne '') {
+      $OUT .= "</VirtualHost>\n";
+   }
+}
