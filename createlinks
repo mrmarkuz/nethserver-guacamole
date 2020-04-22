@@ -36,9 +36,12 @@ event_actions($event,
 
 event_templates($event, qw(
   /etc/guacamole/guacamole.properties
+  /etc/httpd/conf.d/guacamole.conf
+  /etc/httpd/conf.d/zz_guacamole.conf
   /etc/fail2ban/jail.d/01-guacamole.conf
   /etc/fail2ban/filter.d/guacamole.conf
   /etc/shorewall/blrules
+
 
 ));
 
