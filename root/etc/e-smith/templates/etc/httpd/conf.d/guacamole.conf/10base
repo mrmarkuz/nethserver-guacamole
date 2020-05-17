@@ -1,3 +1,27 @@
-#
-# guacamole.conf moved to zz_guacamole.conf
-#
+{
+   my $vhost = $guacd{'VirtualHost'} || '';
+   if ($vhost ne '') {
+      $OUT .= "# Virtualhost enabled - config in zz_guacamole.conf";
+   } else {
+
+      $OUT .= "<VirtualHost *:443>
+   SSLProxyEngine on
+   SSLEngine on
+
+   ProxyPass /guacamole http://localhost:8080/guacamole  flushpackets=on
+   ProxyPassReverse /guacamole http://localhost:8080/guacamole
+
+   <Location />
+      SSLRequireSSL
+   </Location>
+
+  <Location /guacamole/websocket-tunnel>
+      Order allow,deny
+      Allow from all
+      ProxyPass ws://localhost:8080/guacamole/websocket-tunnel
+      ProxyPassReverse ws://localhost:8080/guacamole/websocket-tunnel
+  </Location>
+</VirtualHost>
+";
+   }
+}
