@@ -46,7 +46,7 @@ event_templates($event, qw(
 ));
 
 event_services($event, 'httpd' => 'reload',
-                       'tomcat' => 'restart',
+                       'tomcat8' => 'restart',
                        'guacd' => 'restart');
 
 #

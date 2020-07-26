@@ -6,7 +6,7 @@ mkdir -p /etc/guacamole /usr/share/tomcat/.guacamole/ /var/lib/guacamole/lib/ /e
 
 # create symbolic links
 
-ln -fs /var/lib/guacamole/guacamole.war /var/lib/tomcat/webapps
+ln -fs /var/lib/guacamole/guacamole.war /opt/tomcat8/webapps/
 ln -fs /etc/guacamole/guacamole.properties /usr/share/tomcat/.guacamole/
 ln -fs /var/lib/guacamole/lib/ /usr/share/tomcat/.guacamole/
 ln -fs /var/lib/guacamole/extensions/ /usr/share/tomcat/.guacamole/
