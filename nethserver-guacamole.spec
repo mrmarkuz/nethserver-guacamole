@@ -57,6 +57,7 @@ cp -a ui/* %{buildroot}/usr/share/cockpit/%{name}/
 %changelog
 * Sun Jul 26 2020 Markus Neuberger <info@markusneuberger.at> - 0.0.1-2
 - Update to 1.2.0
+- Update to tomcat 8
 
 * Wed Apr 15 2020 Markus Neuberger <info@markusneuberger.at> - 0.0.1-1
 - Add cockpit application

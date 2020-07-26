@@ -58,7 +58,7 @@ event_templates('nethserver-sssd-save',qw(
 ));
 
 event_services('nethserver-sssd-save', qw(
-  tomcat restart
+  tomcat8 restart
 ));
 
 #

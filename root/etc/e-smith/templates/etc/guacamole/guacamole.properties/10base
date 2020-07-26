@@ -55,5 +55,9 @@ mysql-default-max-group-connections-per-user: 0
   $OUT .= "$ldapuserattr\n";
   $OUT .= "ldap-group-base-dn: $ldapgroupbasedn\n";
   $OUT .= "ldap-user-search-filter: $ldapusersearch\n";
+  if (!$sssd->isAD()) {
+    $OUT .= "ldap-member-attribute: memberUid\n";
+    $OUT .= "ldap-member-attribute-type: uid\n";
+  }
 }
 
