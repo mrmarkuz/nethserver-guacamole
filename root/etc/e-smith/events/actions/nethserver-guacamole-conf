@@ -18,6 +18,10 @@ if [ -d /var/lib/tomcat/webapps/guacamole ] ; then
   rm -Rf /var/lib/tomcat/webapps/guacamole
 fi
 
+if [ -d /opt/tomcat8/webapps/guacamole ] ; then
+  rm -Rf /opt/tomcat8/webapps/guacamole
+fi
+
 # use guacamole mysql password
 pass=$(perl -e "use NethServer::Password; print NethServer::Password::store('guacamole') || die('Could not read guacamole password!');")
 
