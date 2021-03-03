@@ -25,13 +25,13 @@ mysql-default-max-group-connections-per-user: 0
   my $binddn = $sssd->bindDN();
   my $secret = $sssd->bindPassword();
   my $port = $sssd->port();
-  my $ldapuserattr = "";
+  my $ldapuserattr = "ldap-username-attribute: uid,email";
   my $encry = "none";
   my $ldapgroupbasedn = "ou=Groups," . $basedn;
   my $ldapusersearch = "(&(objectClass=posixAccount)(objectClass=shadowAccount)(objectClass=inetOrgPerson))";
   if ($sssd->isAD()) {
     $basedn = "cn=Users," . $basedn;
-    $ldapuserattr = "ldap-username-attribute: samaccountname";
+    $ldapuserattr = "ldap-username-attribute: samaccountname,userprincipalname";
     $encry = "ssl";
     $ldapgroupbasedn = $basedn;
     $ldapusersearch = "(&(objectClass=top)(objectClass=user)(objectClass=person)(objectClass=organizationalPerson))";
@@ -45,6 +45,9 @@ mysql-default-max-group-connections-per-user: 0
   }
   if (${'guacd'}{'ldapPort'}) {
     $port = ${'guacd'}{'ldapPort'};
+  }
+  if (${'guacd'}{'Usernameattribute'}) {
+    $ldapuserattr = ${'guacd'}{'usernameAttribute'};
   }
   $OUT .= "ldap-hostname: $host\n";
   $OUT .= "ldap-port: $port\n";
@@ -60,4 +63,3 @@ mysql-default-max-group-connections-per-user: 0
     $OUT .= "ldap-member-attribute-type: uid\n";
   }
 }
-

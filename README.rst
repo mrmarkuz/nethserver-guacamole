@@ -17,6 +17,10 @@ For use a custom ldap port (usually 389 or 636):
 
   config setprop guacd ldapPort 389
 
+For changing the LDAP username attribute:
+
+  config setprop guacd usernameAttribute samaccountname,userprincipalname
+
 Links
 =====
 
