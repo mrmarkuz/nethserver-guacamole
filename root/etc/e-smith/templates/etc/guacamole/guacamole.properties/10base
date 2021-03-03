@@ -25,7 +25,7 @@ mysql-default-max-group-connections-per-user: 0
   my $binddn = $sssd->bindDN();
   my $secret = $sssd->bindPassword();
   my $port = $sssd->port();
-  my $ldapuserattr = "ldap-username-attribute: uid,email";
+  my $ldapuserattr = "ldap-username-attribute: uid,mail";
   my $encry = "none";
   my $ldapgroupbasedn = "ou=Groups," . $basedn;
   my $ldapusersearch = "(&(objectClass=posixAccount)(objectClass=shadowAccount)(objectClass=inetOrgPerson))";
@@ -46,8 +46,8 @@ mysql-default-max-group-connections-per-user: 0
   if (${'guacd'}{'ldapPort'}) {
     $port = ${'guacd'}{'ldapPort'};
   }
-  if (${'guacd'}{'Usernameattribute'}) {
-    $ldapuserattr = ${'guacd'}{'usernameAttribute'};
+  if (${'guacd'}{'usernameAttribute'}) {
+    $ldapuserattr = "ldap-username-attribute: " . ${'guacd'}{'usernameAttribute'};
   }
   $OUT .= "ldap-hostname: $host\n";
   $OUT .= "ldap-port: $port\n";
