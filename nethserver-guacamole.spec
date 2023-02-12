@@ -1,7 +1,7 @@
 Summary: Guacamole for NethServer
 Name: nethserver-guacamole
 Version: 0.0.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
 Source0: %{name}-%{version}.tar.gz
@@ -77,6 +77,9 @@ cp -a ui/* %{buildroot}/usr/share/cockpit/%{name}/
 %config(noreplace) /var/lib/guacamole/extensions/branding.jar
 
 %changelog
+* Sun Feb 12 2023 Markus Neuberger <info@markusneuberger.at> - 0.0.1-6
+- Fix virtualhost access when there is a webserver virtualhost - thanks to Gabor
+
 * Tue Jun 14 2022 Markus Neuberger <info@markusneuberger.at> - 0.0.1-5
 - Fix branding overwrite on Update - thanks to Royce
 
