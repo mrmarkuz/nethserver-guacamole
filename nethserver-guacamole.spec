@@ -1,19 +1,19 @@
 Summary: Guacamole for NethServer
 Name: nethserver-guacamole
 Version: 0.0.1
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
 Source0: %{name}-%{version}.tar.gz
-Source1: https://apache.org/dyn/closer.cgi?action=download&filename=guacamole/1.4.0/binary/guacamole-1.4.0.war
+Source1: https://apache.org/dyn/closer.cgi?action=download&filename=guacamole/1.5.0/binary/guacamole-1.5.0.war
 #Source2: https://github.com/Zer0CoolX/guacamole-customize-loginscreen-extension/blob/master/branding.jar
 Source2: https://github.com/Zer0CoolX/guacamole-customize-loginscreen-extension/raw/master/branding.jar
-Source3: https://apache.org/dyn/closer.cgi?action=download&filename=guacamole/1.4.0/binary/guacamole-auth-jdbc-1.4.0.tar.gz
-Source4: https://apache.org/dyn/closer.cgi?action=download&filename=guacamole/1.4.0/binary/guacamole-auth-ldap-1.4.0.tar.gz
+Source3: https://apache.org/dyn/closer.cgi?action=download&filename=guacamole/1.5.0/binary/guacamole-auth-jdbc-1.5.0.tar.gz
+Source4: https://apache.org/dyn/closer.cgi?action=download&filename=guacamole/1.5.0/binary/guacamole-auth-ldap-1.5.0.tar.gz
 BuildArch: noarch
 
 Requires: nethserver-mysql,java-1.8.0-openjdk-devel,mysql-connector-java
-Requires: nethserver-base,tomcat8,guacd,libguac-client-rdp,libguac-client-ssh,libguac-client-vnc,gnu-free-mono-fonts
+Requires: tomcat8,guacd,libguac-client-rdp,libguac-client-ssh,libguac-client-vnc,gnu-free-mono-fonts
 
 BuildRequires: perl
 BuildRequires: nethserver-devtools
@@ -52,8 +52,8 @@ cp -a %{SOURCE1} %{buildroot}/var/lib/guacamole/guacamole.war
 cp -va %{SOURCE2} %{buildroot}/var/lib/guacamole/extensions/
 
 # untar extensions
-tar -xzvf %{SOURCE3} -C %{buildroot}/var/lib/guacamole/extensions guacamole-auth-jdbc-1.4.0/mysql/guacamole-auth-jdbc-mysql-1.4.0.jar --strip-components=2
-tar -xzvf %{SOURCE4} -C %{buildroot}/var/lib/guacamole/extensions guacamole-auth-ldap-1.4.0/guacamole-auth-ldap-1.4.0.jar --strip-components=1
+tar -xzvf %{SOURCE3} -C %{buildroot}/var/lib/guacamole/extensions guacamole-auth-jdbc-1.5.0/mysql/guacamole-auth-jdbc-mysql-1.5.0.jar --strip-components=2
+tar -xzvf %{SOURCE4} -C %{buildroot}/var/lib/guacamole/extensions guacamole-auth-ldap-1.5.0/guacamole-auth-ldap-1.5.0.jar --strip-components=1
 
 cp -a %{name}.json %{buildroot}/usr/share/cockpit/nethserver/applications/
 cp -a api/* %{buildroot}/usr/libexec/nethserver/api/%{name}/
@@ -77,6 +77,9 @@ cp -a ui/* %{buildroot}/usr/share/cockpit/%{name}/
 %config(noreplace) /var/lib/guacamole/extensions/branding.jar
 
 %changelog
+* Mon Mar 27 2023 Markus Neuberger <info@markusneuberger.at> - 0.0.1-7
+- Update to 1.5.0 - thanks to Royce
+
 * Sun Feb 12 2023 Markus Neuberger <info@markusneuberger.at> - 0.0.1-6
 - Fix virtualhost access when there is a webserver virtualhost - thanks to Gabor
 
